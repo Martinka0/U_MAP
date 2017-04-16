@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head><style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style></head>
+  <body>
+
+
+        <h1>Prague's places</h1>
+
+        <div id="map"></div>
+
+
+
+    <script async defer
+        src=
+        "https://maps.googleapis.com/maps/api/js?libraries=geometry,drawing&key=AIzaSyCLhDJ6R4J4Jl6DMFLZt7ZNTPTAnMRmB5w&v=3&callback=initMap">
+    </script>
+      <script src="js/map.js"></script>
+      </body>
+</html>
