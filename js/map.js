@@ -1,6 +1,14 @@
 
 
 function initMap() {
+      var markers = [
+          {title: 'EMA espresso bar', location: {lat: 50.088707, lng: 14.433490}, zIndex: 1},
+          {title: 'Onesip coffee', location: {lat: 50.091282, lng: 14.425393}, zIndex: 2},
+          {title: 'Styl&Interier', location: {lat: 50.081620, lng: 14.424524}, zIndex: 3},
+          {title: 'Café jen', location: {lat: 50.071433, lng: 14.455954}, zIndex: 4},
+          {title: 'Místo', location: {lat: 50.099013, lng: 14.404463}, zIndex: 5},
+          {title: 'Kavárna co hledá jméno', location: {lat: 50.069659, lng: 14.403759}, zIndex: 6}
+        ];
 
   // Create a new StyledMapType object, passing it an array of styles,
   // and the name to be displayed on the map type control.
@@ -124,14 +132,7 @@ function initMap() {
         mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain',
               'styled_map']
     }
-  // var markers = [
-  //         {title: 'EMA espresso bar', location: {lat: 50.088707, lng: 14.433490}, zIndex: 1},
-  //         {title: 'Onesip coffee', location: {lat: 50.091282, lng: 14.425393}, zIndex: 2},
-  //         {title: 'Styl&Interier', location: {lat: 50.081620, lng: 14.424524}, zIndex: 3},
-  //         {title: 'Café jen', location: {lat: 50.071433, lng: 14.455954}, zIndex: 4},
-  //         {title: 'Místo', location: {lat: 50.099013, lng: 14.404463} zIndex: 5},
-  //         {title: 'Kavárna co hledá jméno', location: {lat: 50.069659, lng: 14.403759}, zIndex: 6}
-  //       ];
+
 
 
 
