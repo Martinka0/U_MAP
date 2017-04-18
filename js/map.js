@@ -119,6 +119,10 @@ function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 50.08804, lng: 14.42076},
           zoom: 14,
+          zoomControl: true,
+          zoomControlOptions: {
+          position: google.maps.ControlPosition.LEFT_CENTER
+    },
 
         mapTypeControlOptions: {
         mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain',
@@ -141,21 +145,22 @@ var initialBars = [
           {title: 'Místo', location: {lat: 50.099013, lng: 14.404463}, zIndex: 5},
           {title: 'Kavárna co hledá jméno', location: {lat: 50.069659, lng: 14.403759}, zIndex: 6}
         ];
+
 var Bar = function(data) {
-    this.title = data.title;
+    this.title = ko.observable(data.title);
 
 }
 var ViewModel = function() {
     var self = this;
-    this.coffeeShopList = ko.observableArray([]);
-    initalBars.forEach(function(barItem) {
+    this.barList = ko.observableArray([]);
+    initialBars.forEach(function(barItem) {
         self.barList.push(new Bar(barItem));
     });
-    thus.currentBar = ko.observable( this.barList()[0]);
+    this.currentBar = ko.observable(this.barList()[0]);
     this.setBar = function(clickedBar) {
         self.currentBar(clickedBar);
     };
 };
-ko.applyBindings(new viewModel());
+//ko.applyBindings(new viewModel());
 
 
