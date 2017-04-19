@@ -2,7 +2,9 @@
 <html>
   <head>
  <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
@@ -12,6 +14,11 @@
     padding: 0;
 }
 
+.map {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
 #map {
     height: 100%;
     margin: 0;
@@ -21,21 +28,27 @@
  .container-fluid {
     height: 100%;
     width: 100%;
-    margin: 0;
-    padding: 0;
+    margin: 20;
+    padding: 30;
 }
 
     .row {
+    height: 100%;
     margin-left: 0;
     margin-right: 0;
+
+}
+.navbar-brand, .navbar-right, .navbar-form {
+  padding-left: 20px;
+  padding-right: 20px;
 }
 }
 
     </style></head>
     <body>
 
-<nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container-fluid">
+<nav class="navbar navbar-default navbar-fixed-top map">
+  <div class="container-fluid map">
    <div class="row">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -45,14 +58,15 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">PRAGUE'S PLACES</a>
+      <a class="navbar-brand" href="#">  PRAGUE'S PLACES</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Link</a></li>
+      <ul class="nav navbar-nav map">
+        <li class="active"><a href="#">BARS <span class="sr-only">(current)</span></a></li>
+
+
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
           <ul data-bind="foreach: barList" class="dropdown-menu">
@@ -65,8 +79,9 @@
             <li><a href="#">NEW</a></li>
           </ul>
         </li>
+
       </ul>
-      <form class="navbar-form navbar-left">
+      <form class="navbar-form navbar-right">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search">
         </div>
@@ -76,9 +91,9 @@
         </li>
       </ul>
     </div><!-- /.navbar-collapse -->
-    <div class="row">
-          <div class="embed-responsive embed-responsive-4by3">
-          <div id="map" class="embed-responsive-item"></div>
+    <div class="row map">
+          <div class="embed-responsive embed-responsive-4by3 map">
+          <div id="map" class="embed-responsive-item map"></div>
             </div>
              </div>
 
@@ -99,7 +114,7 @@
         "https://maps.googleapis.com/maps/api/js?libraries=geometry,drawing&key=AIzaSyCLhDJ6R4J4Jl6DMFLZt7ZNTPTAnMRmB5w&v=3&callback=initMap">
     </script>
     <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
 
 <!-- jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>

@@ -120,6 +120,7 @@ function initMap() {
           center: {lat: 50.08804, lng: 14.42076},
           zoom: 14,
           zoomControl: true,
+
           zoomControlOptions: {
           position: google.maps.ControlPosition.LEFT_CENTER
     },
@@ -136,20 +137,35 @@ function initMap() {
   map.mapTypes.set('styled_map', styledMapType);
   map.setMapTypeId('styled_map');
 }
-
-var initialBars = [
+var initialCoffeeShop = {
+  currentCoffeeShop: null,
+  CoffeeShop: [
           {title: 'EMA espresso bar', location: {lat: 50.088707, lng: 14.433490}, zIndex: 1},
           {title: 'Onesip coffee', location: {lat: 50.091282, lng: 14.425393}, zIndex: 2},
           {title: 'Styl&Interier', location: {lat: 50.081620, lng: 14.424524}, zIndex: 3},
           {title: 'Café jen', location: {lat: 50.071433, lng: 14.455954}, zIndex: 4},
           {title: 'Místo', location: {lat: 50.099013, lng: 14.404463}, zIndex: 5},
           {title: 'Kavárna co hledá jméno', location: {lat: 50.069659, lng: 14.403759}, zIndex: 6}
-        ];
+        ]
+      };
+var initialBars = {
+  currentBar: null,
+    Bars: [
+          {title: 'EMA espresso bar', location: {lat: 50.088707, lng: 14.433490}, zIndex: 1},
+          {title: 'Onesip coffee', location: {lat: 50.091282, lng: 14.425393}, zIndex: 2},
+          {title: 'Styl&Interier', location: {lat: 50.081620, lng: 14.424524}, zIndex: 3},
+          {title: 'Café jen', location: {lat: 50.071433, lng: 14.455954}, zIndex: 4},
+          {title: 'Místo', location: {lat: 50.099013, lng: 14.404463}, zIndex: 5},
+          {title: 'Kavárna co hledá jméno', location: {lat: 50.069659, lng: 14.403759}, zIndex: 6}
+        ]
+      };
 
 var Bar = function(data) {
-    this.title = ko.observable(data.title);
+    this.title = data.title;
+    this.type = data.type;
+    this.location = data.location;
 
-}
+};
 var ViewModel = function() {
     var self = this;
     this.barList = ko.observableArray([]);
@@ -161,6 +177,8 @@ var ViewModel = function() {
         self.currentBar(clickedBar);
     };
 };
-//ko.applyBindings(new viewModel());
+ko.applyBindings(new viewModel());
+
+
 
 
