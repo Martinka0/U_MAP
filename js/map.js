@@ -1,7 +1,7 @@
 
 var viewModel;
 var map;
-var marker;
+var markers = [];
 
 function initMap() {
 
@@ -119,7 +119,7 @@ function initMap() {
         }
       ],
       {name: 'Styled Map'});
-        var map = new google.maps.Map(document.getElementById('map'), {
+          map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 50.08804, lng: 14.42076},
           zoom: 14,
           zoomControl: true,
@@ -152,31 +152,28 @@ var initialBars = [
           {title: 'Místo', location: {lat: 50.099013, lng: 14.404463}, zIndex: 5},
           {title: 'Kavárna co hledá jméno', location: {lat: 50.069659, lng: 14.403759}, zIndex: 6}
         ];
+
 var Bar = function(data, vm) {
     var self = this;
     this.title = data.title;
     this.location = data.location;
     this.lat = data.location.lat;
     this.lng = data.location.lng;
-
-    // http://knockoutjs.com/documentation/computedObservables.html
     self.makeMarker = ko.computed(function() {
       console.log(vm.google());
-      if (map !== undefined) {
-        this.marker = new google.maps.Marker({
+      if (vm.google()) { // if (vm.google() === true) {
+         // create marker
+        self.marker = new google.maps.Marker({
         title: data.title,
         position: data.location,
-        map: this.map,
+        map: map,
         animation: google.maps.Animation.DROP
 
-    })
-
-return this;
-
-  };
-});
+    });
 }
-var barList= [];
+});
+};
+
 var ViewModel = function() {
    console.log("ViewModel instantiated");
        var self = this;
