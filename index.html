@@ -74,8 +74,12 @@
       </form>
 
         </li>
+
       </ul>
     </div><!-- /.navbar-collapse -->
+       <ul id="bar-list" data-bind="foreach: barList">
+        <li data-bind="text: title"></li>
+    </ul>
     <div class="row">
           <div class="embed-responsive embed-responsive-4by3">
           <div id="map" class="embed-responsive-item"></div>
@@ -93,7 +97,7 @@
 
 </body>
 
-
+<script src="js/lib/knockout-3.2.0.js"></script>
     <script async defer
         src=
         "https://maps.googleapis.com/maps/api/js?libraries=geometry,drawing&key=AIzaSyCLhDJ6R4J4Jl6DMFLZt7ZNTPTAnMRmB5w&v=3&callback=initMap">
@@ -107,5 +111,5 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
       <script src="js/map.js"></script>
-<script src="js/lib/knockout-3.2.0.js"></script>
+
 </html>

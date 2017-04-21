@@ -1,4 +1,7 @@
 
+var viewModel;
+var map;
+var marker;
 
 function initMap() {
 
@@ -135,7 +138,11 @@ function initMap() {
   //Associate the styled map with the MapTypeId and set it to display.
   map.mapTypes.set('styled_map', styledMapType);
   map.setMapTypeId('styled_map');
+  console.log("initMap executed");
+  viewModel.google(!!window.google);
+
 }
+
 
 var initialBars = [
           {title: 'EMA espresso bar', location: {lat: 50.088707, lng: 14.433490}, zIndex: 1},
@@ -145,22 +152,48 @@ var initialBars = [
           {title: 'Místo', location: {lat: 50.099013, lng: 14.404463}, zIndex: 5},
           {title: 'Kavárna co hledá jméno', location: {lat: 50.069659, lng: 14.403759}, zIndex: 6}
         ];
-
-var Bar = function(data) {
-    this.title = ko.observable(data.title);
-
-}
-var ViewModel = function() {
+var Bar = function(data, vm) {
     var self = this;
+    this.title = data.title;
+    this.location = data.location;
+    this.lat = data.location.lat;
+    this.lng = data.location.lng;
+
+    // http://knockoutjs.com/documentation/computedObservables.html
+    self.makeMarker = ko.computed(function() {
+      console.log(vm.google());
+      if (map !== undefined) {
+        this.marker = new google.maps.Marker({
+        title: data.title,
+        position: data.location,
+        map: this.map,
+        animation: google.maps.Animation.DROP
+
+    })
+
+return this;
+
+  };
+});
+}
+var barList= [];
+var ViewModel = function() {
+   console.log("ViewModel instantiated");
+       var self = this;
+
+    this.google = ko.observable(!!window.google); // false
     this.barList = ko.observableArray([]);
     initialBars.forEach(function(barItem) {
-        self.barList.push(new Bar(barItem));
+    self.barList.push(new Bar(barItem, self) );
     });
+    console.log (self.barList());
     this.currentBar = ko.observable(this.barList()[0]);
     this.setBar = function(clickedBar) {
         self.currentBar(clickedBar);
     };
+
 };
-//ko.applyBindings(new viewModel());
 
+var viewModel = new ViewModel(); // create a new object and store it in a variable
 
+ko.applyBindings(viewModel); // activate knockout
