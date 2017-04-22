@@ -145,12 +145,12 @@ function initMap() {
 
 
 var initialBars = [
-          {title: 'EMA espresso bar', location: {lat: 50.088707, lng: 14.433490}, zIndex: 1},
-          {title: 'Onesip coffee', location: {lat: 50.091282, lng: 14.425393}, zIndex: 2},
-          {title: 'Styl&Interier', location: {lat: 50.081620, lng: 14.424524}, zIndex: 3},
-          {title: 'Café jen', location: {lat: 50.071433, lng: 14.455954}, zIndex: 4},
-          {title: 'Místo', location: {lat: 50.099013, lng: 14.404463}, zIndex: 5},
-          {title: 'Kavárna co hledá jméno', location: {lat: 50.069659, lng: 14.403759}, zIndex: 6}
+          {title: 'EMA espresso bar', location: {lat: 50.088707, lng: 14.433490}, types: 'bar'},
+          {title: 'Onesip coffee', location: {lat: 50.091282, lng: 14.425393}, types: 'coffee'},
+          {title: 'Styl&Interier', location: {lat: 50.081620, lng: 14.424524}, types: 'bar'},
+          {title: 'Café jen', location: {lat: 50.071433, lng: 14.455954}, types: 'bar'},
+          {title: 'Místo', location: {lat: 50.099013, lng: 14.404463}, types: 'coffee'},
+          {title: 'Kavárna co hledá jméno', location: {lat: 50.069659, lng: 14.403759}, types: 'coffee'}
         ];
 
 var Bar = function(data, vm) {
@@ -159,6 +159,11 @@ var Bar = function(data, vm) {
     this.location = data.location;
     this.lat = data.location.lat;
     this.lng = data.location.lng;
+    this.types = data.types;
+
+
+
+
     self.makeMarker = ko.computed(function() {
       console.log(vm.google());
       if (vm.google()) { // if (vm.google() === true) {
@@ -174,11 +179,50 @@ var Bar = function(data, vm) {
 });
 };
 
+
+this.types = ko.observableArray([]);
+this.markers = ko.observableArray([]);
+
+self.types = ko.computed ( function() {
+       var filter = this.types();
+       if ( this.types().length === 0 ) {
+           return this.types();
+       } else {
+
+           return ko.utils.arrayFilter(that.places(), function(data) {
+               var type = place.type.toLowerCase();
+               var match = this.filterTypes().includes(type);
+               return match;
+           });
+       }
+   });
+   this.filter = ko.observable("");
+   self.search = ko.computed (function() {
+        if (this.filter() !== "") {
+            var filterText = self.search().toLowerCase();
+            return ko.utils.arrayFilter (self.barList(), function(barItem) {
+                if (bar.title().toLowerCase().includes(filterText)) {
+                    return true;
+                }
+                else {
+                    this.marker.setVisible(false);
+                    return false;
+                }
+            });
+
+            if (vm.google()) {
+                self.recenterMap();
+            }
+            return self.barList();
+        }
+    }, ViewModel);
+
 var ViewModel = function() {
    console.log("ViewModel instantiated");
        var self = this;
 
     this.google = ko.observable(!!window.google); // false
+
     this.barList = ko.observableArray([]);
     initialBars.forEach(function(barItem) {
     self.barList.push(new Bar(barItem, self) );
