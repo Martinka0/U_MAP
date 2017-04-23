@@ -2,6 +2,7 @@
 var viewModel;
 var map;
 var markers = [];
+var myInfowindow;
 
 function initMap() {
 
@@ -134,13 +135,15 @@ function initMap() {
 
 
   });
-
+  function googleError() {
+    alert("Failed to download Google Maps data.");
+}
   //Associate the styled map with the MapTypeId and set it to display.
   map.mapTypes.set('styled_map', styledMapType);
   map.setMapTypeId('styled_map');
   console.log("initMap executed");
   viewModel.google(!!window.google);
-
+  myInfowindow = new google.maps.InfoWindow();
 }
 
 
@@ -150,8 +153,14 @@ var initialBars = [
           {title: 'Styl&Interier', location: {lat: 50.081620, lng: 14.424524}, types: 'bar'},
           {title: 'Café jen', location: {lat: 50.071433, lng: 14.455954}, types: 'bar'},
           {title: 'Místo', location: {lat: 50.099013, lng: 14.404463}, types: 'coffee'},
-          {title: 'Kavárna co hledá jméno', location: {lat: 50.069659, lng: 14.403759}, types: 'coffee'}
+          {title: 'Kavárna co hledá jméno', location: {lat: 50.069659, lng: 14.403759}, types: 'coffee', id: "56c9fc28cd104596fc266354"}
         ];
+  //Setting up Foursquare for infowindow
+var CLIENT_ID = 'YGBWYBRYGYG42BAT3E3HL0A5LKYITIYNUR52BQDBXQPUI15D';
+var CLIENT_SECRET = 'YGBWYBRYGYG42BAT3E3HL0A5LKYITIYNUR52BQDBXQPUI15D';
+
+
+
 
 var Bar = function(data, vm) {
     var self = this;
@@ -160,9 +169,7 @@ var Bar = function(data, vm) {
     this.lat = data.location.lat;
     this.lng = data.location.lng;
     this.types = data.types;
-
-
-
+    this.id = data.id;
 
     self.makeMarker = ko.computed(function() {
       console.log(vm.google());
@@ -175,54 +182,47 @@ var Bar = function(data, vm) {
         animation: google.maps.Animation.DROP
 
     });
+        self.marker.addListener('click', function() {
+        self.openInfoWindow();
+        self.toggleBounce();
+    });
+
+        var contentString = "Hello";
+        self.openInfoWindow = function(data) {
+        self.myInfowindow.open(map, self.marker);
+        self.myInfowindow.setContent(contentString);
+        };
+
+        self.toggleBounce = function() {
+        self.marker.setAnimation(google.maps.Animation.BOUNCE);
+        setTimeout(function () {
+            self.marker.setAnimation(null);
+        }, 1200);
+      };
+
 }
 });
 };
 
 
-this.types = ko.observableArray([]);
-this.markers = ko.observableArray([]);
 
-self.types = ko.computed ( function() {
-       var filter = this.types();
-       if ( this.types().length === 0 ) {
-           return this.types();
-       } else {
-
-           return ko.utils.arrayFilter(that.places(), function(data) {
-               var type = place.type.toLowerCase();
-               var match = this.filterTypes().includes(type);
-               return match;
-           });
-       }
-   });
-   this.filter = ko.observable("");
-   self.search = ko.computed (function() {
-        if (this.filter() !== "") {
-            var filterText = self.search().toLowerCase();
-            return ko.utils.arrayFilter (self.barList(), function(barItem) {
-                if (bar.title().toLowerCase().includes(filterText)) {
-                    return true;
-                }
-                else {
-                    this.marker.setVisible(false);
-                    return false;
-                }
-            });
-
-            if (vm.google()) {
-                self.recenterMap();
-            }
-            return self.barList();
-        }
-    }, ViewModel);
 
 var ViewModel = function() {
    console.log("ViewModel instantiated");
        var self = this;
 
     this.google = ko.observable(!!window.google); // false
+    this.userQuery = ko.observable("");
+    this.printoToConsole = ko.computed(function() {
+    console.log(self.userQuery());
+    });
 
+    self.search = ko.computed (function () {
+    var userQuery = self.userQuery().toLowerCase();
+
+    console.log('userQuery: ', userQuery);
+
+    });
     this.barList = ko.observableArray([]);
     initialBars.forEach(function(barItem) {
     self.barList.push(new Bar(barItem, self) );
