@@ -182,17 +182,23 @@ var Bar = function(data, vm) {
         animation: google.maps.Animation.DROP
 
     });
-        self.marker.addListener('click', function() {
-        self.openInfoWindow();
-        self.toggleBounce();
-    });
+         self.marker.addListener('click', function() {
+            populateInfoWindow(this, myInfowindow);
+            self.toggleBounce();
+          });
 
-        var contentString = "Hello";
-        self.openInfoWindow = function(data) {
-        self.myInfowindow.open(map, self.marker);
-        self.myInfowindow.setContent(contentString);
-        };
-
+       function populateInfoWindow(marker, infowindow) {
+        // Check to make sure the infowindow is not already opened on this marker.
+        if (infowindow.marker != marker) {
+          infowindow.marker = marker;
+          infowindow.setContent('<div>' + marker.title + '</div>');
+          infowindow.open(map, marker);
+          // Make sure the marker property is cleared if the infowindow is closed.
+          infowindow.addListener('closeclick', function() {
+            infowindow.marker = null;
+          });
+        }
+      }
         self.toggleBounce = function() {
         self.marker.setAnimation(google.maps.Animation.BOUNCE);
         setTimeout(function () {
