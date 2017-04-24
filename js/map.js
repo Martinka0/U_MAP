@@ -170,7 +170,30 @@ var Bar = function(data, vm) {
     this.lng = data.location.lng;
     this.types = data.types;
     this.id = data.id;
+    this.address = data.location.formattedAddress || "Sorry we don't have the info at the time";
 
+function ajaxRequestData(data) {
+        var foursquareUrl = "https:";
+       $.ajax({
+        url: foursquareUrl,
+
+        success: function(receivedData) {
+            var placeItem = receivedData.response.venues;
+            placeItem.forEach(function(venue) {
+                data.push(new Bar(venue));
+            });
+        },
+
+        // Error handling method for ajax request
+        error: function(jqXHR, textStatus, errorThrown) {
+            window.alert("An error occured, please press Ctrl+Shift+I for more details");
+            console.log("jqXHR:" + jqXHR);
+            console.log("TextStatus:" + textStatus);
+            console.log("ErrorThrown:" + errorThrown);
+        }
+
+    });
+}
     self.makeMarker = ko.computed(function() {
       console.log(vm.google());
       if (vm.google()) { // if (vm.google() === true) {
@@ -182,11 +205,37 @@ var Bar = function(data, vm) {
         animation: google.maps.Animation.DROP
 
     });
-         self.marker.addListener('click', function() {
+
+        self.marker.addListener('click', function() {
             populateInfoWindow(this, myInfowindow);
             self.toggleBounce();
           });
+           // This function takes in a COLOR, and then creates a new marker
+      // icon of that color. The icon will be 21 px wide by 34 high, have an origin
+      // of 0, 0 and be anchored at 10, 34).
+      function makeMarkerIcon(markerColor) {
+        var markerImage = new google.maps.MarkerImage(
+          'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
+          '|40|_|%E2%80%A2',
+          new google.maps.Size(21, 34),
+          new google.maps.Point(0, 0),
+          new google.maps.Point(10, 34),
+          new google.maps.Size(21,34));
+        return markerImage;
+      }
+           // Style the markers a bit. This will be our listing marker icon.
+    var defaultIcon = makeMarkerIcon('0091ff');
 
+        // Create a "highlighted location" marker color for when the user
+        // mouses over the marker.
+    var highlightedIcon = makeMarkerIcon('FFFF24');
+
+       self.marker.addListener('mouseover', function() {
+            this.setIcon(highlightedIcon);
+          });
+        self.marker.addListener('mouseout', function() {
+            this.setIcon(defaultIcon);
+          });
        function populateInfoWindow(marker, infowindow) {
         // Check to make sure the infowindow is not already opened on this marker.
         if (infowindow.marker != marker) {
@@ -206,6 +255,8 @@ var Bar = function(data, vm) {
         }, 1200);
       };
 
+
+
 }
 });
 };
@@ -215,29 +266,43 @@ var Bar = function(data, vm) {
 
 var ViewModel = function() {
    console.log("ViewModel instantiated");
-       var self = this;
+    var self = this; //Self means it belongs to the ViewModel scope.
 
     this.google = ko.observable(!!window.google); // false
-    this.userQuery = ko.observable("");
-    this.printoToConsole = ko.computed(function() {
-    console.log(self.userQuery());
-    });
 
-    self.search = ko.computed (function () {
-    var userQuery = self.userQuery().toLowerCase();
-
-    console.log('userQuery: ', userQuery);
-
-    });
     this.barList = ko.observableArray([]);
     initialBars.forEach(function(barItem) {
     self.barList.push(new Bar(barItem, self) );
     });
+    this.searchInput = ko.observable("");
+    this.printoToConsole = ko.computed(function() {
+    console.log(self.searchInput());
+    });
+    self.searchList = ko.computed (function () {
+     var query = self.searchInput().toLowerCase();
+    // //self.Bar.removeAll();
+     console.log('searchList: ', query);
+
+    // self.barList.forEach(function(barItem) {
+    //   Bar.marker.setVisible(false);
+
+    // if (Bar.title.toLowerCase().indexOf(searchInput) !== -1) {
+    //     self.barList.push(place);
+    //   }
+    // });
+    // this.barList().forEach(function(barItem) {
+    //   Bar.marker.setVisible(true);
+    //   console.log (self.barList());
+    // });
+
+     });
+
     console.log (self.barList());
     this.currentBar = ko.observable(this.barList()[0]);
     this.setBar = function(clickedBar) {
         self.currentBar(clickedBar);
     };
+
 
 };
 
