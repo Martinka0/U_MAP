@@ -54,31 +54,35 @@
         <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
         <li><a href="#">Link</a></li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Your Style <span class="caret"></span></a>
           <ul data-bind="foreach: barList" class="dropdown-menu">
-            <li><a tabindex="-1" href="#" data-bind="text: title"></a></li>
-            <li><a href="#">BARS</a></li>
-            <li><a href="#">RESTAURANTS</a></li>
+            <li><a tabindex="-1" href="#" data-bind="text: types"></a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="#">MUST SEE</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">NEW</a></li>
           </ul>
         </li>
       </ul>
       <form class="navbar-form navbar-left">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
+          <input class="form-control" type="search" data-bind="textInput: userQuery" autocomplete="off" placeholder="Search…">
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
       </form>
 
         </li>
+
       </ul>
     </div><!-- /.navbar-collapse -->
+<<<<<<< HEAD
       <ul id="bar-list" data-bind="foreach: barList">
         <li data-bind="text: title"></li>
     </ul>
+||||||| merged common ancestors
+=======
+
+       <ul id="bar-list" data-bind="foreach: barList">
+        <li data-bind="text: title"></li>
+    </ul>
+>>>>>>> master
     <div class="row">
           <div class="embed-responsive embed-responsive-4by3">
           <div id="map" class="embed-responsive-item"></div>
@@ -96,6 +100,7 @@
 
 </body>
 
+<<<<<<< HEAD
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
@@ -105,13 +110,31 @@
  -->    <script src="js/lib/knockout-3.2.0.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+||||||| merged common ancestors
+
+=======
+<script src="js/lib/knockout-3.2.0.js"></script>
+<script src="js/map.js"></script>
+>>>>>>> master
     <script async defer
         src=
-        "https://maps.googleapis.com/maps/api/js?libraries=geometry,drawing&key=AIzaSyCLhDJ6R4J4Jl6DMFLZt7ZNTPTAnMRmB5w&v=3&callback=initMap">
+        "https://maps.googleapis.com/maps/api/js?libraries=geometry,drawing&key=AIzaSyCLhDJ6R4J4Jl6DMFLZt7ZNTPTAnMRmB5w&v=3&callback=initMap" onerror="googleError()">
     </script>
 
 
+<<<<<<< HEAD
     <!-- Latest compiled JavaScript -->
     <script src="js/map.js"></script>
 
+||||||| merged common ancestors
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script src="js/map.js"></script>
+<script src="js/lib/knockout-3.2.0.js"></script>
+=======
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+>>>>>>> master
 </html>
