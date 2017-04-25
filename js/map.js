@@ -172,28 +172,49 @@ var Bar = function(data, vm) {
     this.id = data.id;
     this.address = data.location.formattedAddress || "Sorry we don't have the info at the time";
 
-function ajaxRequestData(data) {
-        var foursquareUrl = "https:";
-       $.ajax({
-        url: foursquareUrl,
+// function ajaxRequestData(data) {
+//       $.ajax({
+//         method: "GET",
+//         url: "https://api.foursquare.com/v2/venues/search?ll=37.77926,-122.419265&query=yoga&radius=5000&client_id=POWMWFWIJYX2DYSPVDZGWUALNC4RON5ROTEPHNDZKIYOTUTR&client_secret=PHC4Z52PPQJM5SMCLNN4UAGVYW5PQIKOWX23FDQWLCVB3J3S&v=20170203",
+//         dataType: 'jsonp',
 
-        success: function(receivedData) {
-            var placeItem = receivedData.response.venues;
-            placeItem.forEach(function(venue) {
-                data.push(new Bar(venue));
-            });
-        },
 
-        // Error handling method for ajax request
-        error: function(jqXHR, textStatus, errorThrown) {
-            window.alert("An error occured, please press Ctrl+Shift+I for more details");
-            console.log("jqXHR:" + jqXHR);
-            console.log("TextStatus:" + textStatus);
-            console.log("ErrorThrown:" + errorThrown);
-        }
-
-    });
-}
+//   })
+//   .done( function( results ) {
+//     location.phone = results.phone;
+//     location.website = results.weburl;
+//     location.review = results.review;
+//   })
+//   .fail( function(){
+//     // don't forget to add error handling here.
+//   });
+// }
+//     }).done (function (response) {
+//         var result = response.response.venues;
+//         //push each item of the Foursquare response into venueList array, while conveniently convert them into Venue instances
+//         result.forEach (function (item) {
+//             dataArray.push(new Bar(item));
+//         });
+//         //extend map bounds to include all markers on the screen
+//         var bounds = new google.maps.LatLngBounds();
+//         dataArray().forEach (function (venue) {
+//             bounds.extend(venue.marker.position);
+//         });
+//         //make sure map markers always fit on screen as user resizes their browser window
+//         google.maps.event.addDomListener(window, 'resize', function() {
+//             map.fitBounds(bounds);
+//         });
+//     }).fail (function(jqXHR, textStatus, errorThrown) {
+//         console.log ('Status code: ' + jqXHR.status);
+//         console.log ('Text status: ' + textStatus);
+//         console.log ('Error thrown: ' + errorThrown);
+//         window.alert ('Cannot retrieve data from Foursquare at the moment!');
+//     });
+  //}
+    self.clickHandler = function(data) {
+      google.maps.event.trigger(this.marker, 'click');
+    console.log(data); // should log clicked object
+};
     self.makeMarker = ko.computed(function() {
       console.log(vm.google());
       if (vm.google()) { // if (vm.google() === true) {
@@ -263,7 +284,6 @@ function ajaxRequestData(data) {
 
 
 
-
 var ViewModel = function() {
    console.log("ViewModel instantiated");
     var self = this; //Self means it belongs to the ViewModel scope.
@@ -271,40 +291,43 @@ var ViewModel = function() {
     this.google = ko.observable(!!window.google); // false
 
     this.barList = ko.observableArray([]);
+    console.log(self.barList());
     initialBars.forEach(function(barItem) {
     self.barList.push(new Bar(barItem, self) );
     });
     this.searchInput = ko.observable("");
-    this.printoToConsole = ko.computed(function() {
-    console.log(self.searchInput());
-    });
-    self.searchList = ko.computed (function () {
-     var query = self.searchInput().toLowerCase();
-    // //self.Bar.removeAll();
-     console.log('searchList: ', query);
 
-    // self.barList.forEach(function(barItem) {
-    //   Bar.marker.setVisible(false);
 
-    // if (Bar.title.toLowerCase().indexOf(searchInput) !== -1) {
-    //     self.barList.push(place);
-    //   }
-    // });
-    // this.barList().forEach(function(barItem) {
-    //   Bar.marker.setVisible(true);
-    //   console.log (self.barList());
-    // });
+   //  this.searchList = ko.computed(function() {
+   //    if (self.filter() !== "") {
+   //     var query = self.searchInput().toLowerCase();
+   //       console.log(self.searchInput());
 
-     });
+   // // // this.barList.removeAll();
+
+   // //  this.forEach(function(self) {
+   // //   Bar.marker.setVisible(false);
+   // //  if (Bar.title.toLowerCase().indexOf(searchInput) !== -1) {
+   // //      self.barList.push(place);
+   // //    }
+   // //  });
+   // //  this.barList().forEach(function(barItem) {
+   // //    Bar.marker.setVisible(true);
+   // //    console.log (self.barList());
+   //  };
+
+   //  });
 
     console.log (self.barList());
-    this.currentBar = ko.observable(this.barList()[0]);
-    this.setBar = function(clickedBar) {
-        self.currentBar(clickedBar);
-    };
+    // this.currentBar = ko.observable(self.barList()[0]);
+    // this.setBar = function(clickedBar) {
+    //     self.currentBar(clickedBar)
+
+    // };
 
 
 };
+
 
 var viewModel = new ViewModel(); // create a new object and store it in a variable
 
