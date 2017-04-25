@@ -171,7 +171,7 @@ var Bar = function(data, vm) {
     this.types = data.types;
     this.id = data.id;
     this.address = data.location.formattedAddress || "Sorry we don't have the info at the time";
-
+    this.visible = ko.observable(true);
 // function ajaxRequestData(data) {
 //       $.ajax({
 //         method: "GET",
@@ -179,19 +179,11 @@ var Bar = function(data, vm) {
 //         dataType: 'jsonp',
 
 
-//   })
-//   .done( function( results ) {
-//     location.phone = results.phone;
-//     location.website = results.weburl;
-//     location.review = results.review;
-//   })
-//   .fail( function(){
-//     // don't forget to add error handling here.
-//   });
-// }
 //     }).done (function (response) {
+ //        location.phone = results.phone;
+//         location.website = results.weburl;
+//         location.review = results.review;
 //         var result = response.response.venues;
-//         //push each item of the Foursquare response into venueList array, while conveniently convert them into Venue instances
 //         result.forEach (function (item) {
 //             dataArray.push(new Bar(item));
 //         });
@@ -200,7 +192,7 @@ var Bar = function(data, vm) {
 //         dataArray().forEach (function (venue) {
 //             bounds.extend(venue.marker.position);
 //         });
-//         //make sure map markers always fit on screen as user resizes their browser window
+//
 //         google.maps.event.addDomListener(window, 'resize', function() {
 //             map.fitBounds(bounds);
 //         });
@@ -295,38 +287,47 @@ var ViewModel = function() {
     initialBars.forEach(function(barItem) {
     self.barList.push(new Bar(barItem, self) );
     });
-    this.searchInput = ko.observable("");
 
 
-   //  this.searchList = ko.computed(function() {
-   //    if (self.filter() !== "") {
-   //     var query = self.searchInput().toLowerCase();
-   //       console.log(self.searchInput());
+    self.Query = ko.observable('');
 
-   // // // this.barList.removeAll();
-
-   // //  this.forEach(function(self) {
-   // //   Bar.marker.setVisible(false);
-   // //  if (Bar.title.toLowerCase().indexOf(searchInput) !== -1) {
-   // //      self.barList.push(place);
-   // //    }
-   // //  });
-   // //  this.barList().forEach(function(barItem) {
-   // //    Bar.marker.setVisible(true);
-   // //    console.log (self.barList());
-   //  };
-
-   //  });
-
-    console.log (self.barList());
-    // this.currentBar = ko.observable(self.barList()[0]);
-    // this.setBar = function(clickedBar) {
-    //     self.currentBar(clickedBar)
-
-    // };
+    self.searchResults = ko.computed(function() {
 
 
-};
+
+      var q = self.Query();
+      return self.barList.filter(function(i) {
+      return i.data.title.toLowerCase().indexOf(q) >= 0;
+       });
+
+});
+    };
+  //   self.searchInput = ko.observable("");
+  //  // self.filter = ko.observable();
+  //   self.filteredItems = ko.computed(function() {
+
+  //   var filter = self.searchInput().toLowerCase();
+  //   if (!filter) {
+
+
+  //      //self.Item.marker.visible(true);
+
+
+  //     return self.barList();
+  //     return ko.utils.arrayFilter(self.barList(), function(filter) {
+  //     return ko.utils.stringStartsWith(this.filter().toLowerCase(), filter);
+  //         });
+  //     }
+
+
+
+
+
+
+
+
+
+
 
 
 var viewModel = new ViewModel(); // create a new object and store it in a variable

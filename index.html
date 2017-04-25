@@ -63,7 +63,7 @@
       </ul>
       <form class="navbar-form navbar-left">
         <div class="form-group">
-          <input class="form-control" type="search" data-bind="textInput: searchInput" autocomplete="off" placeholder="Search…">
+          <input class="form-control" data-bind="value: Query, valueUpdate: 'keyup'" autocomplete="off" placeholder="Search…">
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
       </form>
@@ -73,8 +73,8 @@
       </ul>
     </div><!-- /.navbar-collapse -->
 
-       <ul id="bar-list" data-bind="foreach: barList">
-        <li data-bind="text: title, click: clickHandler"></li>
+       <ul id="bar-list" data-bind="foreach: searchResults">
+        <li data-bind="text: $parent.title, click: clickHandler"></li>
     </ul>
     <div class="row">
           <div class="embed-responsive embed-responsive-4by3">
