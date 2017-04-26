@@ -295,31 +295,21 @@ var ViewModel = function() {
     console.log(self.Query);
 
 
-    this.searchResults = ko.observableArray([]);
-    self.searchResults = ko.computed(function() {
-
-       var filter = self.Query().toLowerCase();
-        if (!filter) {
-    // return observableArray
-    self.barList().forEach(function(bar) {
-              //  bar.marker.visible(true);
-            });
-
+ //   this.searchResults = ko.observableArray([]);
+self.searchResults = ko.computed(function() {
+  var filter = self.Query().toLowerCase();
+  if (!filter) {
     return self.barList();
-    console.log(self.return);
-    } else {
-   // bar.marker.visible(false);
-   // filter observableArray and return a subset of matching items
-    return ko.utils.arrayFilter self.barlist(), function(i) {
-    if indexOf(filter) !== -1; };
-
-    console.log(self.return);
-    };
-
-
-
+  } else {
+    return ko.utils.arrayFilter(self.barList(), function(bar) {
+      var title = bar.title.toLowerCase();
+      var match = title.indexOf(filter) > -1;
+      console.log(title, filter, match);
+      return match;
     });
-};
+  }
+});
+}
 
 
 
