@@ -177,11 +177,12 @@ var Bar = function(data, vm) {
 // function ajaxRequestData(data) {
 //       $.ajax({
 //         method: "GET",
-//         url: "https://api.foursquare.com/v2/venues/
+//         url: "https://api.foursquare.com/v2/venues/search",
 //         dataType: 'jsonp',
 //prefix + "100x100" + suffix
-
+//         jsonpCallback: "logResults"
 //     }).done (function (response) {
+    //     console.log( "second success" );
  //        location.phone = results.phone;
 //         location.website = results.weburl;
 //         location.review = results.review;
@@ -290,29 +291,35 @@ var ViewModel = function() {
     self.barList.push(new Bar(barItem, self) );
     });
 
-
     self.Query = ko.observable('');
+    console.log(self.Query);
+
+
     this.searchResults = ko.observableArray([]);
     self.searchResults = ko.computed(function() {
+
        var filter = self.Query().toLowerCase();
-      if (!filter) {
-      return ko.utils.arrayFilter(self.barList(), function(filter) {
-      return ko.utils.stringStartsWith(self.filter().toLowerCase(), filter);
-           });
+        if (!filter) {
+    // return observableArray
+    self.barList().forEach(function(bar) {
+              //  bar.marker.visible(true);
+            });
+
+    return self.barList();
+    console.log(self.return);
+    } else {
+   // bar.marker.visible(false);
+   // filter observableArray and return a subset of matching items
+    return ko.utils.arrayFilter self.barlist(), function(i) {
+    if indexOf(filter) !== -1; };
+
+    console.log(self.return);
+    };
 
 
-}
-});
-  };
 
-
-  //      //self.Item.marker.visible(true);
-
-
-
-
-
-
+    });
+};
 
 
 
