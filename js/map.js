@@ -172,12 +172,14 @@ var Bar = function(data, vm) {
     this.id = data.id;
     this.address = data.location.formattedAddress || "Sorry we don't have the info at the time";
     this.visible = ko.observable(true);
+    this.address = data.location.address || 'No address provided';
+
 // function ajaxRequestData(data) {
 //       $.ajax({
 //         method: "GET",
-//         url: "https://api.foursquare.com/v2/venues/search?ll=37.77926,-122.419265&query=yoga&radius=5000&client_id=POWMWFWIJYX2DYSPVDZGWUALNC4RON5ROTEPHNDZKIYOTUTR&client_secret=PHC4Z52PPQJM5SMCLNN4UAGVYW5PQIKOWX23FDQWLCVB3J3S&v=20170203",
+//         url: "https://api.foursquare.com/v2/venues/
 //         dataType: 'jsonp',
-
+//prefix + "100x100" + suffix
 
 //     }).done (function (response) {
  //        location.phone = results.phone;
@@ -290,34 +292,23 @@ var ViewModel = function() {
 
 
     self.Query = ko.observable('');
-
+    this.searchResults = ko.observableArray([]);
     self.searchResults = ko.computed(function() {
+       var filter = self.Query().toLowerCase();
+      if (!filter) {
+      return ko.utils.arrayFilter(self.barList(), function(filter) {
+      return ko.utils.stringStartsWith(self.filter().toLowerCase(), filter);
+           });
 
 
-
-      var q = self.Query();
-      return self.barList.filter(function(i) {
-      return i.data.title.toLowerCase().indexOf(q) >= 0;
-       });
-
+}
 });
-    };
-  //   self.searchInput = ko.observable("");
-  //  // self.filter = ko.observable();
-  //   self.filteredItems = ko.computed(function() {
-
-  //   var filter = self.searchInput().toLowerCase();
-  //   if (!filter) {
+  };
 
 
   //      //self.Item.marker.visible(true);
 
 
-  //     return self.barList();
-  //     return ko.utils.arrayFilter(self.barList(), function(filter) {
-  //     return ko.utils.stringStartsWith(this.filter().toLowerCase(), filter);
-  //         });
-  //     }
 
 
 
