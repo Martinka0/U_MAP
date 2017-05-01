@@ -235,7 +235,7 @@ var initialBars = [{
 }];
 //Setting up Foursquare for infowindow
 var CLIENT_ID = 'YGBWYBRYGYG42BAT3E3HL0A5LKYITIYNUR52BQDBXQPUI15D';
-var CLIENT_SECRET = 'YGBWYBRYGYG42BAT3E3HL0A5LKYITIYNUR52BQDBXQPUI15D';
+var CLIENT_SECRET = 'WKKZFEP52VDBGCBPTP0DE4W44GFNMK0G5RT0ETOH3Y1ZYQ0T';
 
 var version = new Date().toISOString().slice(0, new Date().toISOString().indexOf("T")).replace(/-/g, "");
 console.log(version);
@@ -261,7 +261,7 @@ var Bar = function(data, vm) {
         google.maps.event.trigger(this.marker, 'click');
         console.log(data); // should log clicked object
     };
-    var url = 'https://api.foursquare.com/v2/venues/' + self.VENUE_ID;
+    var url = 'https://api.foursquare.com/v2/venues/' + "/name";
 
     self.makeMarker = ko.computed(function() {
         console.log(vm.google());
@@ -274,14 +274,14 @@ var Bar = function(data, vm) {
                 animation: google.maps.Animation.DROP
 
             });
-
+            var dt = 'json';
 
             self.marker.addListener('click', function() {
 
                 $.ajax({
 
                         url: url,
-                        dataType: 'dt',
+                        dataType: dt,
                         data: {
                             client_id: CLIENT_ID,
                             client_secret: CLIENT_SECRET,
