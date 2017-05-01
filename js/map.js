@@ -261,7 +261,11 @@ var Bar = function(data, vm) {
         google.maps.event.trigger(this.marker, 'click');
         console.log(data); // should log clicked object
     };
-    var url = 'https://api.foursquare.com/v2/venues/' + "/name";
+
+    var url = 'https://api.foursquare.com/v2/venues/' + self.VENUE_ID;
+    var urlPhoto = 'https://api.foursquare.com/v2/venues/' + self.VENUE_ID + '/photos';
+ //   var img = photo.prefix + 'width' + photo.width + photo.suffix;
+    var dt = 'json';
 
     self.makeMarker = ko.computed(function() {
         console.log(vm.google());
@@ -274,27 +278,45 @@ var Bar = function(data, vm) {
                 animation: google.maps.Animation.DROP
 
             });
-            var dt = 'json';
+
 
             self.marker.addListener('click', function() {
 
                 $.ajax({
 
-                        url: url,
+                        url: url, urlPhoto,
                         dataType: dt,
                         data: {
                             client_id: CLIENT_ID,
                             client_secret: CLIENT_SECRET,
-                            venue: self.VENUE_ID,
-                            name: self.name,
+                           // venue: self.VENUE_ID,
+                           // name: self.name,
+                          //  photo: self.photo,
+                           // formattedAddress: self.address,
+                            prefix: self.photoPrefix,
+                            suffix: self.photoSuffix,
                             v: version,
+                            async: true
                             //  more key-value pairs with venues search request parameters here
                         }
                     })
 
                     .done(function(response) {
-                        var results = response.response.name;
+                        var results = response.response.venue.name;
+                       // self.barList.push ({
+                            name: self.name,
+
+                     //   })
+                        // results.forEach(function(venueItem) {
+                        // self.barList.push(new Bar(venueItem, self));
+                        console.log(results);
+
+                       //});
+                       // var item = response.response.photo;
+                        //var resultsad = response.response.formattedAddress;
                         console.log("second success");
+                        console.log(results);
+                        console.log(barList());
 
 
                     })
@@ -338,7 +360,7 @@ var Bar = function(data, vm) {
                 // Check to make sure the infowindow is not already opened on this marker.
                 if (infowindow.marker != marker) {
                     infowindow.marker = marker;
-                    infowindow.setContent(data.title + data.address);
+                    infowindow.setContent (date.name);
 
 
                     infowindow.open(map, marker);
