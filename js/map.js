@@ -248,13 +248,14 @@ var Bar = function(data, vm) {
     this.lng = data.location.lng;
     this.types = data.types;
     this.VENUE_ID = data.VENUE_ID;
-    this.address = data.location.formattedAddress || "Sorry we don't have the info at the time";
+    this.address = self.address;
     this.visible = ko.observable(true);
-    this.name = data.name;
+    this.name = self.name;
     this.tips = data.tips;
     this.photo = data.photo; //prefix + "100x100" + suffix
 
-
+    console.log(this.address);
+    console.log(this.name);
 
 
     self.clickHandler = function(data) {
@@ -289,10 +290,7 @@ var Bar = function(data, vm) {
                         data: {
                             client_id: CLIENT_ID,
                             client_secret: CLIENT_SECRET,
-                           // venue: self.VENUE_ID,
-                           // name: self.name,
-                          //  photo: self.photo,
-                           // formattedAddress: self.address,
+
                             prefix: self.photoPrefix,
                             suffix: self.photoSuffix,
                             v: version,
@@ -302,21 +300,19 @@ var Bar = function(data, vm) {
                     })
 
                     .done(function(response) {
-                        var results = response.response.venue.name;
-                       // self.barList.push ({
-                            name: self.name,
+                        self.name = response.response.venue.name;
+                        self.address = response.response.venue.location.formattedAddress;
+                        var urlBar = response.response.venue.url;
+                        console.log(self.name);
+                        console.log(self.address);
 
-                     //   })
-                        // results.forEach(function(venueItem) {
-                        // self.barList.push(new Bar(venueItem, self));
-                        console.log(results);
 
                        //});
                        // var item = response.response.photo;
                         //var resultsad = response.response.formattedAddress;
                         console.log("second success");
-                        console.log(results);
-                        console.log(barList());
+
+
 
 
                     })
@@ -360,7 +356,7 @@ var Bar = function(data, vm) {
                 // Check to make sure the infowindow is not already opened on this marker.
                 if (infowindow.marker != marker) {
                     infowindow.marker = marker;
-                    infowindow.setContent (date.name);
+                    infowindow.setContent ('<div>' + self.data.name + '</div>');
 
 
                     infowindow.open(map, marker);
