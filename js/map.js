@@ -237,8 +237,8 @@ var initialBars = [{
 var CLIENT_ID = 'YGBWYBRYGYG42BAT3E3HL0A5LKYITIYNUR52BQDBXQPUI15D';
 var CLIENT_SECRET = 'YGBWYBRYGYG42BAT3E3HL0A5LKYITIYNUR52BQDBXQPUI15D';
 
-var version = new Date().toISOString().slice(0,new Date().toISOString().indexOf("T")).replace(/-/g,"");
-    console.log(version);
+var version = new Date().toISOString().slice(0, new Date().toISOString().indexOf("T")).replace(/-/g, "");
+console.log(version);
 
 var Bar = function(data, vm) {
     var self = this;
@@ -261,7 +261,7 @@ var Bar = function(data, vm) {
         google.maps.event.trigger(this.marker, 'click');
         console.log(data); // should log clicked object
     };
-    var url = 'https://api.foursquare.com/v2/venues/' + self.VENUE_ID + "/name";
+    var url = 'https://api.foursquare.com/v2/venues/' + self.VENUE_ID;
 
     self.makeMarker = ko.computed(function() {
         console.log(vm.google());
@@ -280,31 +280,31 @@ var Bar = function(data, vm) {
 
                 $.ajax({
 
-                     url: url,
-                     dataType: 'dt',
-                     data: {
-                      client_id: CLIENT_ID,
-                      client_secret: CLIENT_SECRET,
-                      venue: self.VENUE_ID,
-                      name: self.name,
-                      v: version,
-      //  more key-value pairs with venues search request parameters here
-                         }
-                     })
+                        url: url,
+                        dataType: 'dt',
+                        data: {
+                            client_id: CLIENT_ID,
+                            client_secret: CLIENT_SECRET,
+                            venue: self.VENUE_ID,
+                            name: self.name,
+                            v: version,
+                            //  more key-value pairs with venues search request parameters here
+                        }
+                    })
 
                     .done(function(response) {
-                    var results = response.response.name;
-                    console.log( "second success" );
+                        var results = response.response.name;
+                        console.log("second success");
 
 
-                        })
-                     .fail (function(jqXHR, textStatus, errorThrown) {
-                    console.log ('Status code: ' + jqXHR.status);
-                    console.log ('Text status: ' + textStatus);
-                    console.log ('Error thrown: ' + errorThrown);
-                    window.alert ('Cannot retrieve data from Foursquare at the moment!');
+                    })
+                    .fail(function(jqXHR, textStatus, errorThrown) {
+                        console.log('Status code: ' + jqXHR.status);
+                        console.log('Text status: ' + textStatus);
+                        console.log('Error thrown: ' + errorThrown);
+                        window.alert('Cannot retrieve data from Foursquare at the moment!');
                     });
-                        });
+            });
 
 
             // This function takes in a COLOR, and then creates a new marker
@@ -338,7 +338,7 @@ var Bar = function(data, vm) {
                 // Check to make sure the infowindow is not already opened on this marker.
                 if (infowindow.marker != marker) {
                     infowindow.marker = marker;
-                    infowindow.setContent(data.title + data.address );
+                    infowindow.setContent(data.title + data.address);
 
 
                     infowindow.open(map, marker);
@@ -398,10 +398,6 @@ var ViewModel = function() {
         }
     });
 };
-
-
-
-
 
 
 
