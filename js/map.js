@@ -237,8 +237,8 @@ var initialBars = [{
 var CLIENT_ID = 'YGBWYBRYGYG42BAT3E3HL0A5LKYITIYNUR52BQDBXQPUI15D';
 var CLIENT_SECRET = 'YGBWYBRYGYG42BAT3E3HL0A5LKYITIYNUR52BQDBXQPUI15D';
 
-
-
+var version = new Date().toISOString().slice(0,new Date().toISOString().indexOf("T")).replace(/-/g,"");
+    console.log(version);
 
 var Bar = function(data, vm) {
     var self = this;
@@ -261,6 +261,8 @@ var Bar = function(data, vm) {
         google.maps.event.trigger(this.marker, 'click');
         console.log(data); // should log clicked object
     };
+    var url = 'https://api.foursquare.com/v2/venues/' + self.VENUE_ID + "/name";
+
     self.makeMarker = ko.computed(function() {
         console.log(vm.google());
         if (vm.google()) { // if (vm.google() === true) {
@@ -277,19 +279,22 @@ var Bar = function(data, vm) {
             self.marker.addListener('click', function() {
 
                 $.ajax({
-                            dataType: "jsonp",
-                            url: 'https://api.foursquare.com/v2/venues/' +
-                                data.VENUE_ID + '/name' +
-                                '?client_id=' + CLIENT_ID +
-                                '&client_secret=' + CLIENT_SECRET +
-                                '&v=20170101',
-                                 jsonpCallback: "logResults"
 
-                        })
+                     url: url,
+                     dataType: 'dt',
+                     data: {
+                      client_id: CLIENT_ID,
+                      client_secret: CLIENT_SECRET,
+                      venue: self.VENUE_ID,
+                      name: self.name,
+                      v: version,
+      //  more key-value pairs with venues search request parameters here
+                         }
+                     })
 
-                        .done(function(response) {
-                            var results = response.response.name;
-                             console.log( "second success" );
+                    .done(function(response) {
+                    var results = response.response.name;
+                    console.log( "second success" );
 
 
                         })
@@ -392,7 +397,7 @@ var ViewModel = function() {
             });
         }
     });
-}
+};
 
 
 
