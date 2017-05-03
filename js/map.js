@@ -242,20 +242,17 @@ console.log(version);
 
 var Bar = function(data, vm) {
     var self = this;
-    this.title = data.title;
+    this.title = self.title;
     this.location = data.location;
     this.lat = data.location.lat;
     this.lng = data.location.lng;
     this.types = data.types;
     this.VENUE_ID = data.VENUE_ID;
-    this.address = self.address;
-    this.visible = ko.observable(true);
+    self.address = self.address;
     this.name = self.name;
-    this.tips = data.tips;
+    this.tips = self.tips;
     this.photo = data.photo; //prefix + "100x100" + suffix
 
-    console.log(this.address);
-    console.log(this.name);
 
 
     self.clickHandler = function(data) {
@@ -267,7 +264,7 @@ var Bar = function(data, vm) {
     var urlPhoto = 'https://api.foursquare.com/v2/venues/' + self.VENUE_ID + '/photos';
  //   var img = photo.prefix + 'width' + photo.width + photo.suffix;
     var dt = 'json';
-
+    var contentString;
     self.makeMarker = ko.computed(function() {
         console.log(vm.google());
         if (vm.google()) { // if (vm.google() === true) {
@@ -302,26 +299,30 @@ var Bar = function(data, vm) {
                     .done(function(response) {
                         self.name = response.response.venue.name;
                         self.address = response.response.venue.location.formattedAddress;
-                        var urlBar = response.response.venue.url;
+                        self.urlBar = response.response.venue.url;
                         console.log(self.name);
                         console.log(self.address);
 
 
                        //});
                        // var item = response.response.photo;
-                        //var resultsad = response.response.formattedAddress;
+
                         console.log("second success");
 
+                        })
 
 
 
-                    })
+
                     .fail(function(jqXHR, textStatus, errorThrown) {
                         console.log('Status code: ' + jqXHR.status);
                         console.log('Text status: ' + textStatus);
                         console.log('Error thrown: ' + errorThrown);
                         window.alert('Cannot retrieve data from Foursquare at the moment!');
                     });
+                    populateInfoWindow(this, myInfowindow);
+                    self.toggleBounce();
+
             });
 
 
@@ -356,7 +357,7 @@ var Bar = function(data, vm) {
                 // Check to make sure the infowindow is not already opened on this marker.
                 if (infowindow.marker != marker) {
                     infowindow.marker = marker;
-                    infowindow.setContent ('<div>' + self.data.name + '</div>');
+                    infowindow.setContent ('<div>' + self.address + self.title +'</div>');
 
 
                     infowindow.open(map, marker);
