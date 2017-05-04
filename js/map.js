@@ -242,7 +242,7 @@ console.log(version);
 
 var Bar = function(data, vm) {
     var self = this;
-    this.title = self.title;
+    this.title = data.title;
     this.location = data.location;
     this.lat = data.location.lat;
     this.lng = data.location.lng;
@@ -250,6 +250,8 @@ var Bar = function(data, vm) {
     this.VENUE_ID = data.VENUE_ID;
     self.address = self.address;
     this.name = self.name;
+    this.urlBar = self.urlBar;
+    this.phone = self.phone;
     this.tips = self.tips;
     this.photo = data.photo; //prefix + "100x100" + suffix
 
@@ -300,8 +302,19 @@ var Bar = function(data, vm) {
                         self.name = response.response.venue.name;
                         self.address = response.response.venue.location.formattedAddress;
                         self.urlBar = response.response.venue.url;
+                        self.phone = response.response.venue.contact.formattedPhone;
+
+
                         console.log(self.name);
                         console.log(self.address);
+                        populateInfoWindow(self.marker, myInfowindow);
+                        // if (!self.address) {
+                        // // ajax request
+                        // // set info window content and open info window in callback
+                        // } else {
+                        // set info window content
+                        // open info window
+                        // }
 
 
                        //});
@@ -320,8 +333,8 @@ var Bar = function(data, vm) {
                         console.log('Error thrown: ' + errorThrown);
                         window.alert('Cannot retrieve data from Foursquare at the moment!');
                     });
-                    populateInfoWindow(this, myInfowindow);
-                    self.toggleBounce();
+                    // populateInfoWindow(this, myInfowindow);
+                    // self.toggleBounce();
 
             });
 
@@ -357,7 +370,9 @@ var Bar = function(data, vm) {
                 // Check to make sure the infowindow is not already opened on this marker.
                 if (infowindow.marker != marker) {
                     infowindow.marker = marker;
-                    infowindow.setContent ('<div>' + self.address + self.title +'</div>');
+                    infowindow.setContent ('<div>' + '<h4>' + self.name + '</h1>' + '<br>' + self.address[0] + '<br>'
+                        + self.address[1] + '<br>' + '<br>' + self.phone + '<br><br>'
+                                   + 'Website: <a href="' + self.urlBar + '">' + self.urlBar + '</a></div>');
 
 
                     infowindow.open(map, marker);
