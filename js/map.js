@@ -178,7 +178,7 @@ function initMap() {
     //Associate the styled map with the MapTypeId and set it to display.
     map.mapTypes.set('styled_map', styledMapType);
     map.setMapTypeId('styled_map');
-    console.log("initMap executed");
+ //   console.log("initMap executed");
     viewModel.google(!!window.google);
     myInfowindow = new google.maps.InfoWindow();
 }
@@ -238,7 +238,7 @@ var CLIENT_ID = 'YGBWYBRYGYG42BAT3E3HL0A5LKYITIYNUR52BQDBXQPUI15D';
 var CLIENT_SECRET = 'WKKZFEP52VDBGCBPTP0DE4W44GFNMK0G5RT0ETOH3Y1ZYQ0T';
 
 var version = new Date().toISOString().slice(0, new Date().toISOString().indexOf("T")).replace(/-/g, "");
-console.log(version);
+//console.log(version);
 
 var Bar = function(data, vm) {
     var self = this;
@@ -259,7 +259,7 @@ var Bar = function(data, vm) {
 
     self.clickHandler = function(data) {
         google.maps.event.trigger(this.marker, 'click');
-        console.log(data); // should log clicked object
+     //   console.log(data); // should log clicked object
     };
 
     var url = 'https://api.foursquare.com/v2/venues/' + self.VENUE_ID;
@@ -268,7 +268,7 @@ var Bar = function(data, vm) {
     var dt = 'json';
     var contentString;
     self.makeMarker = ko.computed(function() {
-        console.log(vm.google());
+    //    console.log(vm.google());
         if (vm.google()) { // if (vm.google() === true) {
             // create marker
             self.marker = new google.maps.Marker({
@@ -305,8 +305,8 @@ var Bar = function(data, vm) {
                         self.phone = response.response.venue.contact.formattedPhone;
 
 
-                        console.log(self.name);
-                        console.log(self.address);
+                //        console.log(self.name);
+               //         console.log(self.address);
                         populateInfoWindow(self.marker, myInfowindow);
                         // if (!self.address) {
                         // // ajax request
@@ -398,7 +398,7 @@ var Bar = function(data, vm) {
 
 
 var ViewModel = function() {
-    console.log("ViewModel instantiated");
+  //  console.log("ViewModel instantiated");
     var self = this; //Self means it belongs to the ViewModel scope.
 
     this.google = ko.observable(!!window.google); // false
@@ -407,13 +407,13 @@ var ViewModel = function() {
 
 
 
-    console.log(self.barList());
+ //   console.log(self.barList());
     initialBars.forEach(function(barItem) {
         self.barList.push(new Bar(barItem, self));
     });
 
     self.Query = ko.observable('');
-    console.log(self.Query);
+ //   console.log(self.Query);
 
     self.searchResults = ko.computed(function() {
         var filter = self.Query().toLowerCase();
@@ -424,7 +424,7 @@ var ViewModel = function() {
             return ko.utils.arrayFilter(self.barList(), function(bar) {
                 var title = bar.title.toLowerCase();
                 var match = title.indexOf(filter) > -1;
-                console.log(title, filter, match);
+      //          console.log(title, filter, match);
                 //the variable `match` holds either `true` or `false`
                 //when we return 'match' to the arrayFilter() method, the bar item will be part of a subset of items which will be returned to the view.
                 return match;
