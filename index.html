@@ -51,12 +51,16 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Link</a></li>
+        <li class="active"><a href="#">Coffe Shops <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">Bars</a></li>
+        <li><a href="#">Restaurants</a></li>
+        <li><a href="#">Things to see.</a></li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Your Style <span class="caret"></span></a>
-          <ul data-bind="foreach: barList" class="dropdown-menu">
-            <li><a tabindex="-1" href="#" data-bind="text: types"></a></li>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Coffee Shops <span class="caret"></span></a>
+          <ul data-bind="foreach: searchResults" class="dropdown-menu">
+          <li data-bind="text: title, click: clickHandler"></li>
+        <!--  <li><a tabindex="-1" href="#" data-bind="text: types"></a></li>  -->
+
             <li role="separator" class="divider"></li>
           </ul>
         </li>
@@ -65,7 +69,7 @@
         <div class="form-group">
           <input class="form-control" data-bind="value: Query, valueUpdate: 'keyup'" autocomplete="off" placeholder="Search…">
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+
       </form>
 
         </li>
