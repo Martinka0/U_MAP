@@ -296,7 +296,7 @@
                             self.prefix = response.response.photos.items[0].prefix;
                             self.suffix = response.response.photos.items[0].suffix;
                             self.width = response.response.photos.items.width;
-                            myInfowindow.setContent('<div>'+ '<img src="' + self.prefix + '300' + self.photo.width + self.suffix + '">' + '<h4>' + self.name + '</h1>' + '<br>' + self.address[0] + '<br>' + self.address[1] + '<br>' + '<br>' + self.phone + '<br><br>' + 'Website: <a href="' + self.urlBar + '">' + self.urlBar + '</a></div>');
+                            myInfowindow.setContent('<div>'+ '<img class="img-thumbnail" width="100" src="' + self.prefix + '300'  + self.photo.width + self.suffix + '">' + '<h4>' + self.name + '</h1>' + '<br>' + self.address[0] + '<br>' + self.address[1] + '<br>' + '<br>' + self.phone + '<br><br>' + 'Website: <a href="' + self.urlBar + '">' + self.urlBar + '</a></div>');
                             populateInfoWindow(self.marker, myInfowindow);
                             self.toggleBounce();
                             console.log("second success");
