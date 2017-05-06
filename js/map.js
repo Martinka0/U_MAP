@@ -244,10 +244,13 @@
         this.phone = self.phone;
         this.tips = self.tips;
         this.photo = self.photo;
+        this.icon = self.icon;
         self.clickHandler = function(data) {
             google.maps.event.trigger(this.marker, 'click');
                console.log(data); // should log clicked object
+
         };
+
         var url = 'https://api.foursquare.com/v2/venues/' + self.VENUE_ID;
         var urlPhoto = 'https://api.foursquare.com/v2/venues/' + self.VENUE_ID + '/photos';
 
@@ -262,6 +265,7 @@
                     position: data.location,
                     map: map,
                     animation: google.maps.Animation.DROP
+
                 });
                 self.marker.addListener('click', function() {
                     $.ajax({
@@ -278,7 +282,13 @@
                         self.address = response.response.venue.location.formattedAddress;
                         self.urlBar = response.response.venue.url;
                         self.phone = response.response.venue.contact.formattedPhone;
+
+
+
+
                         console.log("first success");
+
+
                     }).then(function(response) {
                         return $.ajax({
                             url: urlPhoto,
@@ -296,10 +306,14 @@
                             self.prefix = response.response.photos.items[0].prefix;
                             self.suffix = response.response.photos.items[0].suffix;
                             self.width = response.response.photos.items.width;
-                            myInfowindow.setContent('<div>'+ '<img class="img-thumbnail" width="100" src="' + self.prefix + '300'  + self.photo.width + self.suffix + '">' + '<h4>' + self.name + '</h1>' + '<br>' + self.address[0] + '<br>' + self.address[1] + '<br>' + '<br>' + self.phone + '<br><br>' + 'Website: <a href="' + self.urlBar + '">' + self.urlBar + '</a></div>');
+
+
+                            myInfowindow.setContent('<div>'+ '<img class="img-thumbnail" width="250" src="' + self.prefix + '300'  + self.photo.width + self.suffix + '">'  + '<h4>' + self.name + '</h1>' + '<br>' + self.address[0] + '<br>' + self.address[1] + '<br>' + '<br>' + self.phone + '<br><br>' + 'Website: <a href="' + self.urlBar + '">' + self.urlBar + '</a></div>');
                             populateInfoWindow(self.marker, myInfowindow);
                             self.toggleBounce();
                             console.log("second success");
+
+                            map.setCenter(self.marker.getPosition());
                         }).fail(function(jqXHR, textStatus, errorThrown) {
                             console.log('Status code: ' + jqXHR.status);
                             console.log('Text status: ' + textStatus);
@@ -327,18 +341,16 @@
                     this.setIcon(defaultIcon);
                 });
                   //make sure map markers always fit on screen as user resizes their browser window
-                google.maps.event.addDomListener(window, 'resize', function() {
-                map.fitBounds(bounds);
-                 });
+
                 function populateInfoWindow(marker, infowindow) {
                     // Check to make sure the infowindow is not already opened on this marker.
                     if (infowindow.marker != marker) {
                         infowindow.marker = marker;
-                      //  infowindow.setContent('<div>' + '<h4>' + self.name + '</h1>' + '<br>' + self.address[0] + '<br>' + self.address[1] + '<br>' + '<br>' + self.phone + '<br><br>' + 'Website: <a href="' + self.urlBar + '">' + self.urlBar + '</a></div>');
                         infowindow.open(map, marker);
                         // Make sure the marker property is cleared if the infowindow is closed.
                         infowindow.addListener('closeclick', function() {
-                            infowindow.marker = null;
+                        infowindow.marker = null;
+
                         });
                     }
                 }
