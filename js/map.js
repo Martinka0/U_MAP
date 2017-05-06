@@ -182,7 +182,7 @@ var initialBars = [{
         lat: 50.088707,
         lng: 14.433490
     },
-    types: 'bar',
+    types: 'coffee',
     VENUE_ID: "51c70cc3498e0d1d9e1a0087"
 }, {
     title: 'Onesip coffee',
@@ -249,29 +249,61 @@ var initialBars = [{
     types: 'see',
     VENUE_ID: "4b1434a6f964a5202b9f23e3"
 }, {
-    title: 'Café jen',
+    title: 'Pražská náplavka',
     location: {
-        lat: 50.071433,
-        lng: 14.455954
+        lat: 50.0714088,
+        lng: 14.4141436
     },
     types: 'bar',
-    VENUE_ID: "5192bda27dd298175ef01fd7"
+    VENUE_ID: "4d73979bd976236a3fbc1679"
 }, {
-    title: 'Místo',
+    title: 'Naše maso',
     location: {
-        lat: 50.099013,
-        lng: 14.404463
+        lat: 50.0906722,
+        lng: 14.4269406
     },
-    types: 'coffee',
-    VENUE_ID: "55a776ea498eddbd520275a7"
+    types: 'food',
+    VENUE_ID: "5311ae7311d2b14c76832d24"
 }, {
-    title: 'Kavárna co hledá jméno',
+    title: 'Lokál Dlouhá',
     location: {
-        lat: 50.069659,
-        lng: 14.403759
+        lat: 50.0907283,
+        lng: 14.4255148
     },
-    types: 'coffee',
-    VENUE_ID: "56c9fc28cd104596fc266354"
+    types: 'food',
+    VENUE_ID: "4af5389cf964a5209af821e3"
+},{
+    title: 'U Kroka',
+    location: {
+        lat: 50.0668403,
+        lng: 14.4179499
+    },
+    types: 'food',
+    VENUE_ID: "5311ae7311d2b14c76832d24"
+},{
+    title: 'Ambiente Pasta Fresca',
+    location: {
+        lat: 50.0872134,
+        lng: 14.4238377
+    },
+    types: 'food',
+    VENUE_ID: "4b6c0951f964a520bb202ce3"
+}, {
+    title: 'Bokovka',
+    location: {
+        lat: 50.0908306,
+        lng: 14.4265674
+    },
+    types: 'bar',
+    VENUE_ID: "56447ad4498eee9ca211cc65"
+},{
+    title: 'Hemingway Bar',
+    location: {
+        lat: 50.0839686,
+        lng: 14.4142602
+    },
+    types: 'bar',
+    VENUE_ID: "4b9fc06ef964a5204e3b37e3"
 }];
 //Setting up Foursquare for infowindow
 var CLIENT_ID = 'YGBWYBRYGYG42BAT3E3HL0A5LKYITIYNUR52BQDBXQPUI15D';
@@ -282,6 +314,7 @@ var Bar = function(data, vm) {
     var self = this;
     this.title = data.title;
     this.location = data.location;
+    this.types = data.types,
     this.lat = data.location.lat;
     this.lng = data.location.lng;
     this.VENUE_ID = data.VENUE_ID;
@@ -294,7 +327,7 @@ var Bar = function(data, vm) {
     this.icon = self.icon;
     self.clickHandler = function(data) {
         google.maps.event.trigger(this.marker, 'click');
-        console.log(data); // should log clicked object
+       // console.log(data); // should log clicked object
     };
     var url = 'https://api.foursquare.com/v2/venues/' + self.VENUE_ID;
     var urlPhoto = 'https://api.foursquare.com/v2/venues/' + self.VENUE_ID + '/photos';
@@ -342,13 +375,6 @@ var Bar = function(data, vm) {
                         self.prefix = response.response.photos.items[0].prefix;
                         self.suffix = response.response.photos.items[0].suffix;
                         self.width = response.response.photos.items.width;
-                        // if (!self.address) {
-                        //     // ajax request
-                        //     // set info window content and open info window in callback
-                        // } else {
-                        //     set info window content
-                        //     open info window
-                        // }
                         myInfowindow.setContent('<div>' + '<img class="img-thumbnail" width="150" src="' + self.prefix + '300' + self.photo.width + self.suffix + '">' + '<h4>' + self.name + '</h1>' + '<br>' + self.address[0] + '<br>' + self.address[1] + '<br>' + '<br>' + self.phone + '<br><br>' + 'Website: <a href="' + self.urlBar + '">' + self.urlBar + '</a></div>');
                         populateInfoWindow(self.marker, myInfowindow);
                         self.toggleBounce();
@@ -360,8 +386,16 @@ var Bar = function(data, vm) {
                         console.log('Error thrown: ' + errorThrown);
                         window.alert('Cannot retrieve data from Foursquare at the moment!');
                     });
-                })
+
+                }).fail(function(jqXHR, textStatus, errorThrown) {
+                        console.log('Status code: ' + jqXHR.status);
+                        console.log('Text status: ' + textStatus);
+                        console.log('Error thrown: ' + errorThrown);
+                        window.alert('Cannot retrieve data from Foursquare at the moment!');
+                    });
+
             });
+
             // This function takes in a COLOR, and then creates a new marker
             // icon of that color. The icon will be 21 px wide by 34 high, have an origin
             // of 0, 0 and be anchored at 10, 34).
@@ -411,6 +445,7 @@ var ViewModel = function() {
         self.barList.push(new Bar(barItem, self));
     });
     self.Query = ko.observable('');
+
     self.searchResults = ko.computed(function() {
         var filter = self.Query().toLowerCase();
         if (!filter) {
