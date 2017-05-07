@@ -191,7 +191,7 @@ var initialBars = [{
         lng: 14.425393
     },
     types: 'coffee',
-    VENUE_ID: "662c71d498e4003dfb5de01"
+    VENUE_ID: "5662c71d498e4003dfb5de01"
 }, {
     title: 'Styl&Interier',
     location: {
@@ -356,8 +356,8 @@ var Bar = function(data, vm) {
                 }).then(function(response) {
                     self.name = response.response.venue.name;
                     self.address = response.response.venue.location.formattedAddress;
-                    self.urlBar = response.response.venue.url;
-                    self.phone = response.response.venue.contact.formattedPhone;
+                    self.urlBar = response.response.venue.url || 'No website available.';
+                    self.phone = response.response.venue.contact.formattedPhone || 'No phone available.';
                     console.log("first success");
                 }).then(function(response) {
                     return $.ajax({
@@ -430,7 +430,7 @@ var Bar = function(data, vm) {
                 self.marker.setAnimation(google.maps.Animation.BOUNCE);
                 setTimeout(function() {
                     self.marker.setAnimation(null);
-                }, 1200);
+                }, 600);
             };
         }
     });
@@ -438,7 +438,8 @@ var Bar = function(data, vm) {
 var ViewModel = function() {
     //  console.log("ViewModel instantiated");
     var self = this; //Self means it belongs to the ViewModel scope.
-    this.google = ko.observable(!!window.google); // false
+    this.google = ko.observable(!!window.google);
+
     this.barList = ko.observableArray([]);
     //   console.log(self.barList());
     initialBars.forEach(function(barItem) {
