@@ -1,191 +1,155 @@
 <!DOCTYPE html>
 <html>
-  <head>
-      <meta content="width=device-width, initial-scale=1" name="viewport">
-          <style>
-              /* Always set the map height explicitly to define the size of the div
+<head>
+<meta name= "PRAGUE'S PICKS">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+ </meta>
+<style>
+                /* Always set the map height explicitly to define the size of the div
      * element that contains the map. */
-  body, html, .row {
+
+  body, html {
   height: 100%;
   margin: 0;
   padding: 0;
-
+  background-color: rgba(49, 112, 143, 0.42);
+}
+.col-sm-9 {
+  height: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+  position:relative;
+}
+.col-sm-3 {
+  padding-right: 0!important;
 
 }
-.col-sm-3, .panel, #main {
-
-}
-#map, .container-fluid, .row, .embed-responsive, .embed-responsive-item, .embed-responsive-4by3, {
+#map, #mapheight {
   height: 100%;
   margin: 0;
   padding: 0;
-
-
+  position:relative;
 }
+.row {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  position:relative;
+}
+.sidebar-nav,  {
+  background-color: rgba(49, 112, 143, 0.42);
+}
+.navbar-default {
+    background-color: #F8F8F8;
+    border-color: #E7E7E7;
+}
+.navbar-default .navbar-nav > li > a {
+    color: #777777;
+}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+    background-color: #E7E7E7;
+    color: #555555;
+}
+
+
 .hide {
 display: none;
 }
-          </style>
-      </meta>
-  </head>
-  <body>
-      <div class="container-fluid">
-          <div class="row">
-              <div class="col-sm-3">
-                  <div class="panel panel-group" id="main">
-                      <div class="panel-body">
-                          <div class="panel-heading">
-                              <h4 class="panel-title">
-                                  <a data-parent="#main">
-                                      <span class="glyphicon glyphicon-heart">
-                                      </span>
-                                      PRAGUE
-                                  </a>
-                              </h4>
-                          </div>
-                          <div class="panel-collapse panel-scroll" id="accordion">
-                              <div class="panel panel-default">
-                                  <div class="panel-heading">
-                                      <h4 class="panel-title">
-                                          <a data-parent="#accordion" data-toggle="collapse" href="#collapseOne">
-                                              <span class="glyphicon glyphicon-star">
-                                              </span>
-                                              Coffee Shops
-                                          </a>
-                                      </h4>
-                                  </div>
-                                  <div class="panel-collapse collapse" id="collapseOne">
-                                      <div class="panel-body">
-                                          <table class="table">
-                                              <tbody>
-                                                  <tr>
-                                                      <input autocomplete="off" class="form-control" data-bind="value: Query, valueUpdate: 'keyup'" placeholder="Search…">
-                                                          <ul data-bind="foreach: searchResults" id="bar-list">
-                                                              <li data-bind="text: title, css:{ hide: types !== 'coffee'}, click: clickHandler">
-                                                              </li>
-                                                          </ul>
-                                                      </input>
-                                                  </tr>
-                                              </tbody>
-                                          </table>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="panel panel-default">
-                                  <div class="panel-heading">
-                                      <h4 class="panel-title">
-                                          <a data-parent="#accordion" data-toggle="collapse" href="#collapseThree">
-                                              <span class="glyphicon glyphicon-glass">
-                                              </span>
-                                              Bars
-                                          </a>
-                                      </h4>
-                                  </div>
-                                  <div class="panel-collapse collapse " id="collapseThree">
-                                      <div class="panel-body">
-                                          <table class="table">
-                                              <tbody>
-                                                  <tr>
-                                                      <input autocomplete="off" class="form-control" data-bind="value: Query, valueUpdate: 'keyup'" placeholder="Search…">
-                                                          <ul data-bind="foreach: searchResults" id="bar-list">
-                                                              <li data-bind="text: title, css:{ hide: types !== 'bar'}, click: clickHandler">
-                                                              </li>
-                                                          </ul>
-                                                      </input>
-                                                  </tr>
-                                              </tbody>
-                                          </table>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="panel panel-default">
-                                  <div class="panel-heading">
-                                      <h4 class="panel-title">
-                                          <a data-parent="#accordion" data-toggle="collapse" href="#collapseTwo">
-                                              <span class="glyphicon glyphicon-cutlery">
-                                              </span>
-                                              Food
-                                          </a>
-                                      </h4>
-                                  </div>
-                                  <div class="panel-collapse collapse " id="collapseTwo">
-                                      <div class="panel-body">
-                                          <table class="table">
-                                              <tbody>
-                                                  <tr>
-                                                      <input autocomplete="off" class="form-control" data-bind="value: Query, valueUpdate: 'keyup'" placeholder="Search…">
-                                                          <ul data-bind="foreach: searchResults" id="bar-list">
-                                                              <li data-bind="text: title, css:{ hide: types !== 'food'}, click: clickHandler">
-                                                              </li>
-                                                          </ul>
-                                                      </input>
-                                                  </tr>
-                                              </tbody>
-                                          </table>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="panel panel-default">
-                                  <div class="panel-heading">
-                                      <h4 class="panel-title">
-                                          <a data-parent="#accordion" data-toggle="collapse" href="#collapseFour">
-                                              <span class="glyphicon glyphicon-eye-open">
-                                              </span>
-                                              Check Out
-                                          </a>
-                                      </h4>
-                                  </div>
-                                  <div class="panel-collapse collapse" id="collapseFour">
-                                      <div class="panel-body">
-                                          <table class="table">
-                                              <tbody>
-                                                  <tr>
-                                                      <input autocomplete="off" class="form-control" data-bind="value: Query, valueUpdate: 'keyup'" placeholder="Search…">
-                                                          <ul data-bind="foreach: searchResults" id="bar-list">
-                                                              <li data-bind="text: title, css:{ hide: types !== 'see'}, click: clickHandler">
-                                                              </li>
-                                                          </ul>
-                                                      </input>
-                                                  </tr>
-                                              </tbody>
-                                          </table>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <div class="row">
-                  <div class="embed-responsive embed-responsive-4by3">
-                      <div class="embed-responsive-item" id="map">
-                      </div>
-                  </div>
-              </div>
-          </div>
+
+
+
+</style>
+
+</head>
+<body>
+
+<div class="row">
+  <div class="col-sm-3">
+    <div class="sidebar-nav">
+      <div class="navbar navbar-default " role="navigation">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <span class="visible-xs navbar-brand">Sidebar menu</span>
+        </div>
+        <div class="navbar-collapse collapse sidebar-navbar-collapse">
+         <h4><span class="glyphicon glyphicon-heart">
+                    </span>  PRAGUE </h4> </a>
+
+    </ul>
+     <div class="form-group">
+
+
+    <input class="form-control" autocomplete="off" data-bind="value: Query, valueUpdate: 'keyup'" placeholder="Search…">
+  </div>
+  <h4> <span class="glyphicon glyphicon-star">
+</span> Coffee Shops </h4>
+<ul data-bind="foreach: searchResults" id="bar-list">
+    <li data-bind="text: title, css:{ hide: types !== 'coffee'}, click: clickHandler">
+    </li>
+</ul>
+
+<h4> <span class="glyphicon glyphicon-glass">
+</span> Bars </h4>
+<ul data-bind="foreach: searchResults" id="bar-list">
+    <li data-bind="text: title, css:{ hide: types !== 'bar'}, click: clickHandler">
+    </li>
+</ul>
+
+<h4> <span class="glyphicon glyphicon-cutlery">
+</span> Food </h4>
+<ul data-bind="foreach: searchResults" id="bar-list">
+    <li data-bind="text: title, css:{ hide: types !== 'food'}, click: clickHandler">
+    </li>
+</ul>
+
+<h4> <span class="glyphicon glyphicon-eye-open">
+</span> Check Out </h4>
+<ul data-bind="foreach: searchResults" id="bar-list">
+    <li data-bind="text: title, css:{ hide: types !== 'see'}, click: clickHandler">
+    </li>
+</ul>
+        </div><!--/.nav-collapse -->
       </div>
-  </body>
-</html>
-<!-- /row -->
-<!-- /.container-flui -->
+    </div>
+  </div>
+  <div class="col-sm-9">
+    <div id= "mapheight" class="embed-responsive embed-responsive-4by3">
+      <div class="embed-responsive-item" id="map">
+      </div>
+      </div>
+  </div>
+</div>
+
+
+
+
+    </body>
+
+
 <script src="js/lib/knockout-3.2.0.js">
+</script>
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js">
 </script>
 <script src="js/map.js">
 </script>
-<script async="" defer="" onerror="myFunction()" src="https://maps.googleapis.com/maps/api/js?libraries=geometry,drawing&key=AIzaSyCLhDJ6R4J4Jl6DMFLZt7ZNTPTAnMRmB5w&v=3&callback=initMap">
-  ;
+
+<!-- Latest compiled and minified CSS -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
+    </script>
+</link>
+<script async defer src="https://maps.googleapis.com/maps/api/js?libraries=geometry,drawing&key=AIzaSyCLhDJ6R4J4Jl6DMFLZt7ZNTPTAnMRmB5w&v=3&callback=initMap" onerror="myFunction()">
 </script>
 <script>
-  function myFunction() {
+    function myFunction() {
   alert("Oops, Can't connect to Maps. Please try again in a few minutes.");
   };
 </script>
-<!-- Latest compiled and minified CSS -->
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-  <!-- jQuery library -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js">
-  </script>
-  <!-- Latest compiled JavaScript -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
-  </script>
-</link>
+</html>

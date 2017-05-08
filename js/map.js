@@ -414,6 +414,13 @@ var Bar = function(data, vm) {
             self.marker.addListener('mouseout', function() {
                 this.setIcon(defaultIcon);
             });
+            // map.addListener('center_changed', function() {
+            // // // 3 seconds after the center of the map has changed, pan back to the
+            // // // marker.
+            //  window.setTimeout(function() {
+            //  map.panTo(self.marker.getPosition());
+            //   }, 3000);
+            //      });
             //make sure map markers always fit on screen as user resizes their browser window
             function populateInfoWindow(marker, infowindow) {
                 // Check to make sure the infowindow is not already opened on this marker.
@@ -430,7 +437,7 @@ var Bar = function(data, vm) {
                 self.marker.setAnimation(google.maps.Animation.BOUNCE);
                 setTimeout(function() {
                     self.marker.setAnimation(null);
-                }, 600);
+                }, 1400);
             };
         }
     });
@@ -442,6 +449,7 @@ var ViewModel = function() {
 
     this.barList = ko.observableArray([]);
     //   console.log(self.barList());
+
     initialBars.forEach(function(barItem) {
         self.barList.push(new Bar(barItem, self));
     });
@@ -449,8 +457,18 @@ var ViewModel = function() {
 
     self.searchResults = ko.computed(function() {
         var filter = self.Query().toLowerCase();
+
+
         if (!filter) {
+        self.barList().forEach(function(bar){
+            if (bar.hasOwnProperty('marker')){
+              bar.marker.setVisible(true);
+            }
+          });
+
+
             return self.barList();
+
         } else {
             //the ko.utils.arrayFilter() method iterates of the barList observableArray's items bar item by bar item.
             return ko.utils.arrayFilter(self.barList(), function(bar) {
